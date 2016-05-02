@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--Jedis 连接池的配置-->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <!--最大连接数-->
+        <property name="maxTotal"  value="${redis.maxActive}" />
+        <!--最大空闲数-->
+        <property name="maxIdle"   value="${redis.maxIdle}" />
+        <!--建立连接最大等待时间-->
+        <property name="maxWaitMillis" value="${redis.maxWaitMillis}" />
+        <!--指明是否在从池中取出连接前进行检验,如果检验失败,则从池中去除连接并尝试取出另一个-->
+        <property name="testOnBorrow" value="${redis.testOnBorrow}"/>
+    </bean>
+
+    <!-- jedisCluster jedis集群配置 -->
+    <bean id="jedisCluster" class="redis.clients.jedis.JedisCluster">
+        <constructor-arg index="0">
+            <set>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg type="java.lang.String" value="${redis.host1}"/>
+                    <constructor-arg type="int" value="${redis.port1}"/>
+                </bean>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg type="java.lang.String" value="${redis.host2}"/>
+                    <constructor-arg type="int" value="${redis.port2}"/>
+                </bean>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg type="java.lang.String" value="${redis.host3}"/>
+                    <constructor-arg type="int" value="${redis.port3}"/>
+                </bean>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg type="java.lang.String" value="${redis.host4}"/>
+                    <constructor-arg type="int" value="${redis.port4}"/>
+                </bean>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg type="java.lang.String" value="${redis.host5}"/>
+                    <constructor-arg type="int" value="${redis.port5}"/>
+                </bean>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg type="java.lang.String" value="${redis.host6}"/>
+                    <constructor-arg type="int" value="${redis.port6}"/>
+                </bean>
+            </set>
+        </constructor-arg>
+        <constructor-arg index="1" ref="jedisPoolConfig" />
+    </bean>
+
+</beans>
